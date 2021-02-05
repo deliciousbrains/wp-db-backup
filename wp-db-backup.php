@@ -99,6 +99,7 @@ class wpdbBackup {
 			'terms',
 			'term_taxonomy',
 			'term_relationships',
+			'termmeta',
 			'users',
 			'usermeta',
 		);
