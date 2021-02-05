@@ -562,58 +562,12 @@ class wpdbBackup {
 		}
 		//]]>
 		</script>
-		<style type="text/css">
-			.wp-db-backup-updated {
-				margin-top: 1em;
-			}
-
-			fieldset.options {
-				border: 1px solid;
-				margin-top: 1em;
-				padding: 1em;
-				-moz-border-radius: 8px;
-				-khtml-border-radius: 8px;
-				-webkit-border-top-left-radius: 8px;
-				-webkit-border-top-right-radius: 8px;
-				-webkit-border-bottom-left-radius: 8px;
-				-webkit-border-bottom-right-radius: 8px;
-				border-radius: 8px;
-			}
-				fieldset.options div.tables-list {
-					float: left;
-					padding: 1em;
-				}
-
-				fieldset.options input {
-				}
-
-				fieldset.options legend {
-					font-size: larger;
-					font-weight: bold;
-					margin-bottom: .5em;
-					padding: 1em;
-				}
-
-				fieldset.options .instructions {
-					font-size: smaller;
-				}
-
-				fieldset.options ul {
-					list-style-type: none;
-				}
-					fieldset.options li {
-						text-align: left;
-					}
-
-				fieldset.options .submit {
-					border-top: none;
-				}
-		</style>
 		<?php
 	}
 
 	function admin_load() {
 		add_action('admin_head', array(&$this, 'admin_header'));
+		wp_enqueue_style('wp-db-backup-styles', plugin_dir_url(__FILE__) . 'assets/css/style.css');
 	}
 
 	function admin_menu() {
