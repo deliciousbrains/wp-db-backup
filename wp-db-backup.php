@@ -110,8 +110,16 @@ class wpdbBackup {
 			}
 		}
 
-		$requested_temp_dir = sanitize_text_field($_GET['wp_db_temp_dir']);
-		$this->backup_dir = trailingslashit(apply_filters('wp_db_b_backup_dir', (isset($requested_temp_dir) && is_writable($requested_temp_dir)) ? $requested_temp_dir : get_temp_dir()));
+		$tmp_dir = get_temp_dir();
+
+		if (isset($_GET['wp_db_temp_dir'])) {
+		    $requested_dir = sanitize_text_field($_GET['wp_db_temp_dir']);
+		    if (is_writeable($requested_dir)) {
+		        $tmp_dir = $requested_dir;
+            }
+        }
+
+		$this->backup_dir = trailingslashit(apply_filters('wp_db_b_backup_dir', $tmp_dir));
 		$this->basename = 'wp-db-backup';
 
 		$this->referer_check_key = $this->basename . '-download_' . DB_NAME;
