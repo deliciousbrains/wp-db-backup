@@ -6,6 +6,7 @@ Description: On-demand backup of your WordPress database. Navigate to <a href="e
 Author: Austin Matzko
 Author URI: http://austinmatzko.com/
 Version: 2.3.3
+Domain Path: /languages
 
 Copyright 2018  Austin Matzko  (email : austin at pressedcode.com)
 
@@ -201,7 +202,11 @@ class wpdbBackup {
 	}
 
 	function init_textdomain() {
-		load_plugin_textdomain('wp-db-backup', str_replace(ABSPATH, '', dirname(__FILE__)), dirname(plugin_basename(__FILE__)));
+		load_plugin_textdomain(
+		        'wp-db-backup',
+                false,
+                dirname(plugin_basename(__FILE__)) . '/languages'
+        );
 	}
 
 	function set_page_url() {
