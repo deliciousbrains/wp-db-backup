@@ -898,92 +898,16 @@ class wpdbBackup {
 
 	/**
 	 * Sends the backed-up file via email
-	 * @param string $to
+	 *
+     * @param string $to
 	 * @param string $subject
 	 * @param string $message
+     * @param string $diskfile
+     *
 	 * @return bool
 	 */
 	function send_mail( $to, $subject, $message, $diskfile) {
-		global $phpmailer;
-
-		$filename = basename($diskfile);
-
-		extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message' ) ) );
-
-		if ( !is_object( $phpmailer ) || ( strtolower(get_class( $phpmailer )) != 'phpmailer' ) ) {
-			if ( file_exists( ABSPATH . WPINC . '/class-phpmailer.php' ) )
-				require_once ABSPATH . WPINC . '/class-phpmailer.php';
-			if ( file_exists( ABSPATH . WPINC . '/class-smtp.php' ) )
-				require_once ABSPATH . WPINC . '/class-smtp.php';
-			if ( class_exists( 'PHPMailer') )
-				$phpmailer = new PHPMailer();
-		}
-
-		// try to use phpmailer directly (WP 2.2+)
-		if ( is_object( $phpmailer ) && ( strtolower(get_class( $phpmailer )) == 'phpmailer' ) ) {
-
-			// Get the site domain and get rid of www.
-			$sitename = $this->get_sitename();
-			$from_email = 'wordpress@' . $sitename;
-			$from_name = 'WordPress';
-
-			// Empty out the values that may be set
-			$phpmailer->ClearAddresses();
-			$phpmailer->ClearAllRecipients();
-			$phpmailer->ClearAttachments();
-			$phpmailer->ClearBCCs();
-			$phpmailer->ClearCCs();
-			$phpmailer->ClearCustomHeaders();
-			$phpmailer->ClearReplyTos();
-
-			$phpmailer->AddAddress( $to );
-			$phpmailer->AddAttachment($diskfile, $filename);
-			$phpmailer->Body = $message;
-			$phpmailer->CharSet = apply_filters( 'wp_mail_charset', get_bloginfo('charset') );
-			$phpmailer->From = apply_filters( 'wp_mail_from', $from_email );
-			$phpmailer->FromName = apply_filters( 'wp_mail_from_name', $from_name );
-			$phpmailer->IsMail();
-			$phpmailer->Subject = $subject;
-
-			do_action_ref_array( 'phpmailer_init', array( &$phpmailer ) );
-
-			$result = @$phpmailer->Send();
-
-		// old-style: build the headers directly
-		} else {
-			$randomish = md5(time());
-			$boundary = "==WPBACKUP-$randomish";
-			$fp = fopen($diskfile,"rb");
-			$file = fread($fp,filesize($diskfile));
-			$this->close($fp);
-
-			$data = chunk_split(base64_encode($file));
-
-			$headers .= "MIME-Version: 1.0\n";
-			$headers = 'From: wordpress@' . preg_replace('#^www\.#', '', sanitize_text_field(strtolower($_SERVER['SERVER_NAME']))) . "\n";
-			$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\n";
-
-			// Add a multipart boundary above the plain message
-			$message = "This is a multi-part message in MIME format.\n\n" .
-				"--{$boundary}\n" .
-				"Content-Type: text/plain; charset=\"" . get_bloginfo('charset') . "\"\n" .
-				"Content-Transfer-Encoding: 7bit\n\n" .
-				$message . "\n\n";
-
-			// Add file attachment to the message
-			$message .= "--{$boundary}\n" .
-				"Content-Type: application/octet-stream;\n" .
-				" name=\"{$filename}\"\n" .
-				"Content-Disposition: attachment;\n" .
-				" filename=\"{$filename}\"\n" .
-				"Content-Transfer-Encoding: base64\n\n" .
-				$data . "\n\n" .
-				"--{$boundary}--\n";
-
-			$result = @wp_mail($to, $subject, $message, $headers);
-		}
-		return $result;
-
+	    return wp_mail( $to, $subject, $message, array(), array($diskfile));
 	}
 
 	function deliver_backup($filename = '', $delivery = 'http', $recipient = '', $location = 'main') {
