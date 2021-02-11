@@ -812,9 +812,9 @@ class wpdbBackup {
 				$excs = (array) get_option('wp_db_backup_excs');
 				$where = '';
 				if ( is_array($excs['spam'] ) && in_array($table, $excs['spam']) ) {
-					$where = ' WHERE comment_approved != "spam"';
+					$where = " WHERE comment_approved != 'spam'";
 				} elseif ( is_array($excs['revisions'] ) && in_array($table, $excs['revisions']) ) {
-					$where = ' WHERE post_type != "revision"';
+					$where = " WHERE post_type != 'revision'";
 				}
 
 				if ( !ini_get('safe_mode')) @set_time_limit(15*60);
