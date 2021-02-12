@@ -114,11 +114,11 @@ class wpdbBackup {
 		$tmp_dir = get_temp_dir();
 
 		if (isset($_GET['wp_db_temp_dir'])) {
-		    $requested_dir = sanitize_text_field($_GET['wp_db_temp_dir']);
-		    if (is_writeable($requested_dir)) {
-		        $tmp_dir = $requested_dir;
-            }
-        }
+			$requested_dir = sanitize_text_field($_GET['wp_db_temp_dir']);
+			if (is_writeable($requested_dir)) {
+				$tmp_dir = $requested_dir;
+			}
+		}
 
 		$this->backup_dir = trailingslashit(apply_filters('wp_db_b_backup_dir', $tmp_dir));
 		$this->basename = 'wp-db-backup';
@@ -203,10 +203,10 @@ class wpdbBackup {
 
 	function init_textdomain() {
 		load_plugin_textdomain(
-		        'wp-db-backup',
-                false,
-                dirname(plugin_basename(__FILE__)) . '/languages'
-        );
+			'wp-db-backup',
+			false,
+			dirname(plugin_basename(__FILE__)) . '/languages'
+		);
 	}
 
 	function set_page_url() {
@@ -224,20 +224,20 @@ class wpdbBackup {
 		global $pagenow;
 
 		if (empty($pagenow) || 'update-core.php' !== $pagenow) {
-		    return false;
-        }
-        ?>
-        <div class="notice notice-warning">
-            <p>
-                <?php
-                printf(
-                        __('Click <a href="%s">here</a> to back up your database using the WordPress Database Backup plugin. <strong>Note:</strong> WordPress Database Backup does <em>not</em> back up your files, just your database.', 'wp-db-backup'),
-                        esc_url(get_admin_url(null, 'tools.php?page=wp-db-backup'))
-                );
-                ?>
-            </p>
-        </div>
-        <?php
+			return false;
+		}
+		?>
+		<div class="notice notice-warning">
+			<p>
+				<?php
+				printf(
+					__('Click <a href="%s">here</a> to back up your database using the WordPress Database Backup plugin. <strong>Note:</strong> WordPress Database Backup does <em>not</em> back up your files, just your database.', 'wp-db-backup'),
+					esc_url(get_admin_url(null, 'tools.php?page=wp-db-backup'))
+				);
+				?>
+			</p>
+		</div>
+		<?php
 	}
 
 	function build_backup_script() {
@@ -904,15 +904,15 @@ class wpdbBackup {
 	/**
 	 * Sends the backed-up file via email
 	 *
-     * @param string $to
+	 * @param string $to
 	 * @param string $subject
 	 * @param string $message
-     * @param string $diskfile
-     *
+	 * @param string $diskfile
+	 *
 	 * @return bool
 	 */
 	function send_mail( $to, $subject, $message, $diskfile) {
-	    return wp_mail( $to, $subject, $message, array(), array($diskfile));
+		return wp_mail( $to, $subject, $message, array(), array($diskfile));
 	}
 
 	function deliver_backup($filename = '', $delivery = 'http', $recipient = '', $location = 'main') {
@@ -1084,8 +1084,8 @@ class wpdbBackup {
 		// Get complete db table list
 		$all_tables = $wpdb->get_results("SHOW TABLES", ARRAY_N);
 		$all_tables = array_map( function($a) {
-		    return $a[0];
-        }, $all_tables);
+			return $a[0];
+		}, $all_tables);
 		// Get list of WP tables that actually exist in this DB (for 1.6 compat!)
 		$wp_backup_default_tables = array_intersect($all_tables, $this->core_table_names);
 		// Get list of non-WP tables
@@ -1319,8 +1319,8 @@ class wpdbBackup {
 		global $table_prefix, $wpdb;
 		$all_tables = $wpdb->get_results("SHOW TABLES", ARRAY_N);
 		$all_tables = array_map(function($a) {
-		    return $a[0];
-        }, $all_tables);
+			return $a[0];
+		}, $all_tables);
 		$core_tables = array_intersect($all_tables, $this->core_table_names);
 		$other_tables = get_option('wp_cron_backup_tables');
 		$recipient = get_option('wp_cron_backup_recipient');
