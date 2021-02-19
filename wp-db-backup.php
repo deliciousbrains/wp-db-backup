@@ -918,87 +918,68 @@ class wpdbBackup {
 	function deliver_backup($filename = '', $delivery = 'http', $recipient = '', $location = 'main') {
 		if ('' == $filename) { return false; }
 
-		$diskfile = $this->backup_dir . $filename;
-		$gz_diskfile = "{$diskfile}.gz";
+		$diskfile        = $this->backup_dir . $filename;
+		$gz_diskfile     = "{$diskfile}.gz";
+		$retry           = isset($_GET['download-retry']);
+		$success         = false;
 
-		/**
-		 * Try upping the memory limit before gzipping
-		 */
-		if ( function_exists('memory_get_usage') && ( (int) @ini_get('memory_limit') < 64 ) ) {
-			@ini_set('memory_limit', '64M' );
-		}
+		// Try to gzip the file if we can.
+		if ( file_exists( $diskfile ) && ! file_exists( $gz_diskfile ) && ! $retry ) {
+			if ( function_exists( 'gzencode' ) && function_exists( 'file_get_contents' ) ) {
+				// Try upping the memory limit before gzipping
+				if ( function_exists('memory_get_usage') && ( (int) @ini_get('memory_limit') < 64 ) ) {
+					@ini_set('memory_limit', '64M' );
+				}
 
-		if ( file_exists( $diskfile ) && empty( $_GET['download-retry'] ) ) {
-			/**
-			 * Try gzipping with an external application
-			 */
-			if ( file_exists( $diskfile ) && ! file_exists( $gz_diskfile ) ) {
-				@exec( "gzip $diskfile" );
-			}
+				$contents = file_get_contents( $diskfile );
+				$gzipped  = gzencode( $contents, 9 );
+				$fp       = fopen( $gz_diskfile, 'w' );
 
-			if ( file_exists( $gz_diskfile ) ) {
-				if ( file_exists( $diskfile ) ) {
+				fwrite($fp, $gzipped );
+
+				if ( fclose( $fp ) ) {
 					unlink($diskfile);
 				}
-				$diskfile = $gz_diskfile;
-				$filename = "{$filename}.gz";
-
-			/**
-			 * Try to compress to gzip, if available
-			 */
-			} else {
-				if ( function_exists('gzencode') ) {
-					if ( function_exists('file_get_contents') ) {
-						$text = file_get_contents($diskfile);
-					} else {
-						$text = implode("", file($diskfile));
-					}
-					$gz_text = gzencode($text, 9);
-					$fp = fopen($gz_diskfile, "w");
-					fwrite($fp, $gz_text);
-					if ( fclose($fp) ) {
-						unlink($diskfile);
-						$diskfile = $gz_diskfile;
-						$filename = "{$filename}.gz";
-					}
-				}
 			}
-			/*
-			 *
-			 */
-		} elseif ( file_exists( $gz_diskfile ) && empty( $_GET['download-retry'] ) ) {
-			$diskfile = $gz_diskfile;
-			$filename = "{$filename}.gz";
+		}
+
+		if ( file_exists( $gz_diskfile ) ) {
+			$filename        = $filename . '.gz';
+			$file_to_deliver = $gz_diskfile;
+		} else {
+			$file_to_deliver = $diskfile;
 		}
 
 		if ('http' == $delivery) {
-			if ( ! file_exists( $diskfile ) ) {
-				if ( empty( $_GET['download-retry'] ) ) {
+			if ( ! file_exists( $file_to_deliver ) ) {
+				if ( ! $retry ) {
 					$this->error(array('kind' => 'fatal', 'msg' => sprintf(__('File not found:%s','wp-db-backup'), "&nbsp;<strong>$filename</strong><br />") . '<br /><a href="' . $this->page_url . '">' . __('Return to Backup','wp-db-backup') . '</a>'));
 				} else {
 					return true;
 				}
-			} elseif ( file_exists( $diskfile ) ) {
+			} else {
 				header('Content-Description: File Transfer');
 				header('Content-Type: application/octet-stream');
-				header('Content-Length: ' . filesize($diskfile));
+				header('Content-Length: ' . filesize($file_to_deliver));
 				header("Content-Disposition: attachment; filename=$filename");
-				$success = readfile($diskfile);
+				$success = readfile($file_to_deliver);
 				if ( $success ) {
-					unlink($diskfile);
+					unlink($file_to_deliver);
 				}
 			}
 		} elseif ('smtp' == $delivery) {
-			if (! file_exists($diskfile)) {
-				$msg = sprintf(__('File %s does not exist!','wp-db-backup'), $diskfile);
+			if (! file_exists($file_to_deliver)) {
+				$msg = sprintf(__('File %s does not exist!','wp-db-backup'), $file_to_deliver);
 				$this->error($msg);
 				return false;
 			}
+
 			if (! is_email($recipient)) {
 				$recipient = get_option('admin_email');
 			}
-			$message = sprintf(__("Attached to this email is\n   %1s\n   Size:%2s kilobytes\n",'wp-db-backup'), $filename, round(filesize($diskfile)/1024));
-			$success = $this->send_mail($recipient, get_bloginfo('name') . ' ' . __('Database Backup','wp-db-backup'), $message, $diskfile);
+
+			$message = sprintf(__("Attached to this email is\n   %1s\n   Size:%2s kilobytes\n",'wp-db-backup'), $filename, round(filesize($file_to_deliver)/1024));
+			$success = $this->send_mail($recipient, get_bloginfo('name') . ' ' . __('Database Backup','wp-db-backup'), $message, $file_to_deliver);
 
 			if ( false === $success ) {
 				$msg = __('The following errors were reported:','wp-db-backup') . "\n ";
@@ -1010,11 +991,12 @@ class wpdbBackup {
 				}
 				$this->error(array('kind' => 'fatal', 'loc' => $location, 'msg' => $msg));
 			} else {
-				if ( file_exists( $diskfile ) ) {
-					unlink($diskfile);
+				if ( file_exists( $file_to_deliver ) ) {
+					unlink($file_to_deliver);
 				}
 			}
 		}
+
 		return $success;
 	}
 
