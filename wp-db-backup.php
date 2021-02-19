@@ -1275,17 +1275,14 @@ class wpdbBackup {
 			</label></li>
 			<li><label for="do_email">
 				<input type="radio" name="deliver" id="do_email" value="smtp" style="border:none;" />
-				<?php _e( 'Email backup to:', 'wp-db-backup' ); ?>
-				<input type="text" name="backup_recipient" size="20" value="
 				<?php
-					$backup_recip = get_option( 'wpdb_backup_recip' );
+                $backup_recip = get_option( 'wpdb_backup_recip' );
 				if ( empty( $backup_recip ) ) {
 					$backup_recip = get_option( 'admin_email' );
 				}
-
-					echo $backup_recip;
+                _e( 'Email backup to:', 'wp-db-backup' );
 				?>
-					" />
+				<input type="text" name="backup_recipient" size="20" value="<?php echo esc_attr( $backup_recip ); ?>" />
 			</label></li>
 			</ul>
 			<?php if ( ! $whoops ) : ?>
