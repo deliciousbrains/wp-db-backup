@@ -1,6 +1,5 @@
-=== WP-DB-Backup ===
-Contributors: filosofo
-Donate link: http://austinmatzko.com/wordpress-plugins/wp-db-backup/
+=== Database Backup for WordPress ===
+Contributors: filosofo, deliciousbrains
 Tags: mysql, database, backup, cron
 Requires at least: 3.6.0
 Tested up to: 5.6
@@ -10,7 +9,7 @@ On-demand backup of your WordPress database.
 
 == Description ==
 
-WP-DB-Backup allows you easily to backup your core WordPress database tables.  You may also backup other tables in the same database.
+Database Backup for WordPress allows you easily to backup your core WordPress database tables.  You may also backup other tables in the same database.
 
 Released under the terms of the GNU GPL, version 2.
    http://www.fsf.org/licensing/licenses/gpl.html
@@ -121,7 +120,7 @@ If you are using WordPress version 2.1 or newer, you can schedule automated back
 of your choice.
 
 == Translators ==
-Thanks to following people for providing translation files for WP-DB-Backup:
+Thanks to following people for providing translation files for Database Backup for WordPress:
 * Abel Cheung
 * Alejandro Urrutia
 * Alexander Kanakaris

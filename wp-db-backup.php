@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: WordPress Database Backup
+Plugin Name: Database Backup for WordPress
 Plugin URI: https://github.com/matzko/wp-db-backup
 Description: On-demand backup of your WordPress database. Navigate to <a href="edit.php?page=wp-db-backup">Tools &rarr; Backup</a> to get started.
-Author: Austin Matzko
-Author URI: http://austinmatzko.com/
+Author: Delicious Brains
+Author URI: https://deliciousbrains.com
 Version: 2.4
 Domain Path: /languages
 
