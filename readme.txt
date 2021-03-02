@@ -3,8 +3,8 @@ Contributors: filosofo
 Donate link: http://austinmatzko.com/wordpress-plugins/wp-db-backup/
 Tags: mysql, database, backup, cron
 Requires at least: 3.6.0
-Tested up to: 4.9.2
-Stable tag: 2.3.3
+Tested up to: 5.6
+Stable tag: 2.4
 
 On-demand backup of your WordPress database.
 
