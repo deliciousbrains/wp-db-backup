@@ -29,18 +29,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Please do not load this file directly.' );
 }
 
-if ( ! defined( 'ROWS_PER_SEGMENT' ) ) {
-	define( 'ROWS_PER_SEGMENT', 100 );
+if ( ! defined( 'DBBWP_ROWS_PER_SEGMENT' ) ) {
+	define( 'DBBWP_ROWS_PER_SEGMENT', 100 );
 }
 
 /**
- * Set MOD_EVASIVE_OVERRIDE to true
- * and increase MOD_EVASIVE_DELAY
+ * Set DBBWP_MOD_EVASIVE_OVERRIDE to true
+ * and increase DBBWP_MOD_EVASIVE_DELAY
  * if the backup stops prematurely.
  */
-// define('MOD_EVASIVE_OVERRIDE', false);
-if ( ! defined( 'MOD_EVASIVE_DELAY' ) ) {
-	define( 'MOD_EVASIVE_DELAY', '500' );
+// define('DBBWP_MOD_EVASIVE_OVERRIDE', false);
+if ( ! defined( 'DBBWP_MOD_EVASIVE_DELAY' ) ) {
+	define( 'DBBWP_MOD_EVASIVE_DELAY', '500' );
 }
 
 class wpdbBackup {
@@ -58,11 +58,11 @@ class wpdbBackup {
 	function module_check() {
 		$mod_evasive = false;
 
-		if ( defined( 'MOD_EVASIVE_OVERRIDE' ) && true === MOD_EVASIVE_OVERRIDE ) {
+		if ( defined( 'DBBWP_MOD_EVASIVE_OVERRIDE' ) && true === DBBWP_MOD_EVASIVE_OVERRIDE ) {
 			return true;
 		}
 
-		if ( ! defined( 'MOD_EVASIVE_OVERRIDE' ) || false === MOD_EVASIVE_OVERRIDE ) {
+		if ( ! defined( 'DBBWP_MOD_EVASIVE_OVERRIDE' ) || false === DBBWP_MOD_EVASIVE_OVERRIDE ) {
 			return false;
 		}
 
@@ -357,11 +357,11 @@ class wpdbBackup {
 
 		foreach ( $tables as $table ) {
 			$rec_count    = $wpdb->get_var( "SELECT count(*) FROM {$table}" );
-			$rec_segments = ceil( $rec_count / ROWS_PER_SEGMENT );
+			$rec_segments = ceil( $rec_count / DBBWP_ROWS_PER_SEGMENT );
 			$table_count  = 0;
 			if ( $this->module_check() ) {
 				$delay      = "setTimeout('";
-				$delay_time = "', " . (int) MOD_EVASIVE_DELAY . ')';
+				$delay_time = "', " . (int) DBBWP_MOD_EVASIVE_DELAY . ')';
 			} else {
 				$delay = $delay_time = ''; }
 			do {
@@ -881,10 +881,10 @@ class wpdbBackup {
 
 			if ( $segment == 'none' ) {
 				$row_start = 0;
-				$row_inc   = ROWS_PER_SEGMENT;
+				$row_inc   = DBBWP_ROWS_PER_SEGMENT;
 			} else {
-				$row_start = $segment * ROWS_PER_SEGMENT;
-				$row_inc   = ROWS_PER_SEGMENT;
+				$row_start = $segment * DBBWP_ROWS_PER_SEGMENT;
+				$row_inc   = DBBWP_ROWS_PER_SEGMENT;
 			}
 
 			do {

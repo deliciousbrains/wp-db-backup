@@ -1,5 +1,5 @@
 === Database Backup for WordPress ===
-Contributors: filosofo, deliciousbrains
+Contributors: deliciousbrains
 Tags: mysql, database, backup, cron
 Requires at least: 3.6.0
 Tested up to: 5.6
@@ -18,7 +18,7 @@ Released under the terms of the GNU GPL, version 2.
 
 	Copyright (c) 2018 Austin Matzko
 
-[Source Code on GitHub](https://github.com/matzko/wp-db-backup)
+[Source Code on GitHub](https://github.com/deliciousbrains/wp-db-backup)
 
 == Installation ==
 1. Extract the wp-db-backup/ folder file to /wp-content/plugins/
@@ -41,30 +41,29 @@ Briefly, use phpMyAdmin, which is included with most hosting control panels. Mor
 If you edit the text of wp-db-backup.php in a text editor like Notepad, you’ll see around line 50 the following:
 
 `/**
-* Set MOD_EVASIVE_OVERRIDE to true
-* and increase MOD_EVASIVE_DELAY
+* Set DBBWP_MOD_EVASIVE_OVERRIDE to true
+* and increase DBBWP_MOD_EVASIVE_DELAY
 * if the backup stops prematurely.
 */
-// define('MOD_EVASIVE_OVERRIDE', false);
-define('MOD_EVASIVE_DELAY', '500');`
+// define('DBBWP_MOD_EVASIVE_OVERRIDE', false);
+define('DBBWP_MOD_EVASIVE_DELAY', '500');`
 
-Do what it says: un-comment MOD_EVASIVE_OVERRIDE and set it to true like so:
+Do what it says: un-comment DBBWP_MOD_EVASIVE_OVERRIDE and set it to true like so:
 
-`define('MOD_EVASIVE_OVERRIDE', true);`
+`define('DBBWP_MOD_EVASIVE_OVERRIDE', true);`
 
-That will slow down the plugin, and you can slow it even further by increasing the MOD_EVASIVE_DELAY number from 500.
+That will slow down the plugin, and you can slow it even further by increasing the DBBWP_MOD_EVASIVE_DELAY number from 500.
 
-Better yet, put the lines that define the `MOD_EVASIVE_OVERRIDE` and `MOD_EVASIVE_DELAY` constants in your wp-config.php file, so your settings don't get erased when you upgrade the plugin.
+Better yet, put the lines that define the `DBBWP_MOD_EVASIVE_OVERRIDE` and `DBBWP_MOD_EVASIVE_DELAY` constants in your wp-config.php file, so your settings don't get erased when you upgrade the plugin.
 
 = What is wp-db-backup.pot for? =
 
-This files is used by non-English users to translate the display into their native language.  Translators are encouraged to send me translated files, which will be made available to others here:
-http://austinmatzko.com/wordpress-plugins/wp-db-backup/i18n/
+This files is used by non-English users to translate the display into their native language.  Translators are encouraged to submit translated files, which will be made available to others here:
 http://plugins.trac.wordpress.org/browser/wp-db-backup/i18n/
 
 = Why are only the core database files backed up by default? =
 
-Because it's a fairly safe bet that the core WordPress files will be successfully backed up.  Plugins vary wildly in the amount of data that they store.  For instance, it's not uncommon for some statistics plugins to have tens of megabytes worth of visitor statistics.  These are not exactly essential items to restore after a catastrophic failure.  Most poeple can reasonably live without this data in their backups.
+Because it's a fairly safe bet that the core WordPress files will be successfully backed up.  Plugins vary wildly in the amount of data that they store.  For instance, it's not uncommon for some statistics plugins to have tens of megabytes worth of visitor statistics.  These are not exactly essential items to restore after a catastrophic failure. Most poeple can reasonably live without this data in their backups.
 
 == Usage ==
 1. Click the Tools or Manage menu in your WordPress admin area.
@@ -92,6 +91,13 @@ date = CCYYmmdd_B format:  20050711_039
 When having the database backup emailed or sent to your browser for immediate download, the backup file will be _deleted_ from the server when the transfer is finished.
 
 == Changelog ==
+
+= 2.4.0 =
+* Compatibility with PHP 8 and WordPress 5.6
+* Fix email backup functionality
+* Fix for bug where backup file would be gzipped twice
+* Fixes for several PHP notices
+* Add `DBBWP_` prefix to global constants
 
 = 2.3.0 =
 * Remove backup directory use
@@ -155,4 +161,4 @@ Thanks to following people for providing translation files for Database Backup f
 * 吴曦
 
 == Past Contributors ==
-skippy, Firas, LaughingLizard, MtDewVirus, Podz, Ringmaster
+filosofo, skippy, Firas, LaughingLizard, MtDewVirus, Podz, Ringmaster
