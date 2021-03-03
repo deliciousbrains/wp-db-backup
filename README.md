@@ -105,7 +105,7 @@ When having the database backup emailed or sent to your browser for immediate do
 Changelog
 ---------
 
-2.4.0
+2.4
 -----
 * Compatibility with PHP 8 and WordPress 5.6
 * Fix email backup functionality
@@ -113,7 +113,7 @@ Changelog
 * Fixes for several PHP notices
 * Add `DBBWP_` prefix to global constants
 
-2.3.0
+2.3
 -----
 * Remove backup directory use
 
