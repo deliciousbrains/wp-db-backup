@@ -2,8 +2,9 @@
 Contributors: deliciousbrains
 Tags: mysql, database, backup, cron
 Requires at least: 3.6.0
-Tested up to: 5.6
+Tested up to: 5.7
 Stable tag: 2.4
+Requires PHP: 5.3
 
 On-demand backup of your WordPress database.
 
@@ -12,11 +13,6 @@ On-demand backup of your WordPress database.
 Database Backup for WordPress allows you easily to backup your core WordPress database tables.  You may also backup other tables in the same database.
 
 Released under the terms of the GNU GPL, version 2.
-   http://www.fsf.org/licensing/licenses/gpl.html
-
-              NO WARRANTY.
-
-	Copyright (c) 2018 Austin Matzko
 
 [Source Code on GitHub](https://github.com/deliciousbrains/wp-db-backup)
 
@@ -93,7 +89,7 @@ When having the database backup emailed or sent to your browser for immediate do
 == Changelog ==
 
 = 2.4 =
-* Compatibility with PHP 8 and WordPress 5.6
+* Compatibility with PHP 8 and WordPress 5.7
 * Fix email backup functionality
 * Fix for bug where backup file would be gzipped twice
 * Fixes for several PHP notices
