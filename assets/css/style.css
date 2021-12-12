@@ -82,7 +82,7 @@
 }
 
 .header img {
-  width: 3rem;
+  width: 3rem;rgb(60, 59, 89)
   height: 3rem;
   margin-right: 1.25rem;
 }
@@ -117,6 +117,7 @@
 }
 
 .subnav a:focus {
+  border-bottom: 3px solid rgba(60, 59, 89, .4)!important;
   box-shadow: none;
   outline: 0;
 }
