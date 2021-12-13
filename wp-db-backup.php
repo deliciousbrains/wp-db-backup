@@ -622,6 +622,7 @@ class wpdbBackup {
 	function admin_load() {
 		add_action( 'admin_head', array( &$this, 'admin_header' ) );
 		wp_enqueue_style( 'wp-db-backup-styles', plugin_dir_url( __FILE__ ) . 'assets/css/style.css' );
+        wp_enqueue_script( 'wp-db-backup-script', plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array( 'jquery' ), $this->version, true );
 	}
 
 	function admin_menu() {
@@ -1256,7 +1257,7 @@ class wpdbBackup {
 			@touch( $this->backup_dir . 'index.php' );
 		}
 		?>
-		<div class='wrap'>
+		<div id="wpdb" class='wrap'>
 			<div class="header">
 				<img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/logo.svg'; ?>">
 				<h2 class="title"><?php _e( 'WP Backup For WordPress', 'wp-db-backup' ); ?></h2>
@@ -1265,10 +1266,10 @@ class wpdbBackup {
 			<div class="subnav">
 				<ul>
 					<li>
-						<a class="active" href="#">Backup Now</a>
+						<a class="active" href="#backup">Backup Now</a>
 					</li>
 					<li>
-						<a href="#">Scheduled Backup</a>
+						<a href="#schedule">Scheduled Backup</a>
 					</li>
 				</ul>
 			</div>
@@ -1282,7 +1283,7 @@ class wpdbBackup {
 			}
 			?>
 
-			<fieldset class="options">
+			<fieldset class="options backup-content">
 				<legend><?php _e( 'Tables', 'wp-db-backup' ); ?></legend>
 
 				<div class="panel-heading">
@@ -1336,7 +1337,7 @@ class wpdbBackup {
 
 
 		<!--BACKUP PANEL-->
-		<fieldset class="options">
+		<fieldset class="options backup-content">
 			<legend><?php _e( 'Backup Options', 'wp-db-backup' ); ?></legend>
 
 			<div class="panel-heading">
@@ -1385,7 +1386,7 @@ class wpdbBackup {
 		$cron_old = ( function_exists( 'wp_cron_init' ) && ! $cron ) ? true : false; // wp-cron plugin by Skippy
 
 		if ( $cron_old || $cron ) :
-			echo '<fieldset class="options"><legend>' . __( 'Scheduled Backup', 'wp-db-backup' ) . '</legend>';
+			echo '<fieldset class="options schedule-content" hidden><legend>' . __( 'Scheduled Backup', 'wp-db-backup' ) . '</legend>';
 			echo '<div class="panel-heading"><h3>Scheduled Backup</h3></div>';
 
 			echo '<div class="panel-content scheduled-backup">';
