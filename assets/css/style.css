@@ -508,3 +508,18 @@ code.shift-key {
 .alternate {
   background-color: var(--white);
 }
+
+.wp-db-backup-updated {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  border-left-width: 4px;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+  margin: 5px 0 15px;
+  padding: 1px 12px;
+  border-left-color: #00a32a;
+}
+
+.wp-db-backup-updated p {
+  margin: 0.5em 0;
+  padding: 2px;
+}
