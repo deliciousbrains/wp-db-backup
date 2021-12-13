@@ -149,7 +149,7 @@ class wpdbBackup {
 					add_action( 'init', array( &$this, 'perform_backup' ) );
 					break;
 				case 'fragments':
-					add_action( 'admin_menu', array( &$this, 'fragment_menu' ) );
+					add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 					break;
 			}
 		} elseif ( isset( $_GET['fragment'] ) ) {
@@ -391,7 +391,6 @@ class wpdbBackup {
 			</script>
 	</div>
 		';
-		$this->backup_menu();
 	}
 
 	function backup_fragment( $table, $segment, $filename ) {
@@ -643,11 +642,6 @@ class wpdbBackup {
 			$text = $this->help_menu();
 			add_contextual_help( $_page_hook, $text );
 		}
-	}
-
-	function fragment_menu() {
-		$page_hook = add_management_page( __( 'Backup', 'wp-db-backup' ), __( 'Backup', 'wp-db-backup' ), 'import', $this->basename, array( &$this, 'build_backup_script' ) );
-		add_action( 'load-' . $page_hook, array( &$this, 'admin_load' ) );
 	}
 
 	/**
@@ -1275,6 +1269,10 @@ class wpdbBackup {
             <?php
             if ( '' != $feedback ) {
                 echo $feedback;
+            }
+
+            if ( isset( $_POST['do_backup'] ) && $_POST['do_backup'] === 'fragments' ) {
+                $this->build_backup_script();
             }
             ?>
 
