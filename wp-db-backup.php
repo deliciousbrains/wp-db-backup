@@ -257,11 +257,10 @@ class wpdbBackup {
 	function build_backup_script() {
 		global $table_prefix, $wpdb;
 
-		echo "<div class='wrap'>";
 		echo '<fieldset class="options backup-running"><legend>' . __( 'Progress', 'wp-db-backup' ) . '</legend>
 
 		<div class="panel-heading">
-			<h3>Backup In Progress.</h3>
+			<h3>Backup In Progress...</h3>
 		</div>
 
 		<div class="panel-content">
@@ -274,7 +273,7 @@ class wpdbBackup {
 			<div class="info-notice">
 			<img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/warning.svg'; ?>">
 				<p>
-					Whilst the backup is in progress, please do not close the browser, reload the page, or click the stop or back browser buttons. This would result in the backup failing.
+					Whilst the backup is in progress, please do not close the browser, reload or change the page, or click the stop or back browser buttons. This would result in the backup failing.
 				</p>
 			</div>
 
@@ -391,7 +390,6 @@ class wpdbBackup {
 			nextStep();
 			// ]]>
 			</script>
-	</div>
 		';
 	}
 

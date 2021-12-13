@@ -486,7 +486,18 @@ code.shift-key {
   border-radius: 8px;
 }
 
-/*warning notice----------------------------------------------------------*/
+#progress-status {
+  color: var(--primary);
+  font-size: 28px;
+  line-height: 70%;
+  margin-bottom: 12px;
+}
+
+#errors:empty {
+  display: none;
+}
+
+/*notices----------------------------------------------------------*/
 .info-notice {
   background: var(--warning-fill);
   border: 1px solid var(--warning-border);
@@ -505,32 +516,22 @@ code.shift-key {
   margin-right: .75rem;
 }
 
-.alternate {
-  background-color: var(--white);
-}
-
 .wp-db-backup-updated {
-  background: #fff;
-  border: 1px solid #c3c4c7;
-  border-left-width: 4px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left-width: 5px;
   box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
   margin: 5px 0 15px;
-  padding: 1px 12px;
+  padding: 6px 12px;
   border-left-color: #00a32a;
+  border-radius: 3px;
 }
 
 .wp-db-backup-updated p {
   margin: 0.5em 0;
-  padding: 2px;
+  padding: 4px;
 }
 
-#progress-status {
-  color: var(--primary);
-  font-size: 28px;
-  line-height: 70%;
-  margin-bottom: 12px;
-}
-
-#errors:empty {
-  display: none;
+.alternate {
+  background-color: var(--white);
 }
