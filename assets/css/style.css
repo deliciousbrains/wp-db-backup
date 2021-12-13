@@ -530,3 +530,7 @@ code.shift-key {
   line-height: 70%;
   margin-bottom: 12px;
 }
+
+#errors:empty {
+  display: none;
+}
