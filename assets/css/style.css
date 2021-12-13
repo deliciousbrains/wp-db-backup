@@ -523,3 +523,10 @@ code.shift-key {
   margin: 0.5em 0;
   padding: 2px;
 }
+
+#progress-status {
+  color: var(--primary);
+  font-size: 28px;
+  line-height: 70%;
+  margin-bottom: 12px;
+}

@@ -266,6 +266,7 @@ class wpdbBackup {
 
 		<div class="panel-content">
 			<div class="progress-bar">
+			    <div id="progress-status"></div>
 				<div id="meterbox" style="height:11px;width:80%;padding:3px;border:1px solid #659fff;"><div id="meter" style="color:#fff;height:11px;line-height:11px;background-color:#659fff;width:0%;text-align:center;font-size:6pt;"></div></div>
 				<div id="progress_message"></div>'?>
 			</div>
@@ -286,9 +287,10 @@ class wpdbBackup {
 				return "' . __( 'Navigating away from this page will cause your backup to fail.', 'wp-db-backup' ) . '";
 			}
 			function setMeter(pct) {
+                var meterStatus = document.getElementById("progress-status");
 				var meter = document.getElementById("meter");
 				meter.style.width = pct + "%";
-				meter.innerHTML = Math.floor(pct) + "%";
+				meterStatus.innerHTML = Math.floor(pct) + "%";
 			}
 			function setProgress(str) {
 				var progress = document.getElementById("progress_message");
