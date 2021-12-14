@@ -519,10 +519,8 @@ class wpdbBackup {
 					if ( ul ) {
 						var lis = ul.getElementsByTagName('li');
 						if ( 2 < lis.length ) {
-							var text = document.createElement('p');
-							text.className = 'instructions';
-							text.innerHTML = '<?php _e( 'Click and hold down <code class="shift-key">SHIFT</code> to toggle multiple checkboxes</div>', 'wp-db-backup' ); ?>';
-							ul.parentNode.insertBefore(text, ul);
+							var text = document.querySelector('#instructions-container p');
+                            text.style.display = 'block';
 						}
 					}
 					t[k].p = d.getElementsByTagName("input");
@@ -1317,7 +1315,10 @@ class wpdbBackup {
 			<?php
 			if ( count( $other_tables ) > 0 ) {
 				?>
-				<h4><?php _e( 'Additional tables to backup', 'wp-db-backup' ); ?></h4>
+                <div id="instructions-container">
+				    <h4><?php _e( 'Additional tables to backup', 'wp-db-backup' ); ?></h4>
+                    <p hidden><?php _e( 'Click and hold down <code class="shift-key">SHIFT</code> to toggle multiple checkboxes', 'wp-db-backup' ); ?></p>
+                </div>
 				<ul>
 					<?php
 					foreach ( $other_tables as $table ) {
