@@ -327,6 +327,7 @@ class wpdbBackup {
 
 				setTimeout( function() {
 					var secondFrame = document.createElement("iframe");
+					secondFrame.style.display = "none";
 					fram.parentNode.insertBefore(secondFrame, fram);
 					secondFrame.src = "' . $download_uri . '&download-retry=1";
 				}, 30000 );
