@@ -528,18 +528,21 @@ class wpdbBackup {
 					for(var i=0; i < t[k].p.length; i++) {
 						if(t[k].name == t[k].p[i].getAttribute('name')) {
 							t[k].p[i].id = k + '-table-' + i;
-							t[k].p[i].onkeyup = t[k].p[i].onclick = function(e) {
+                            var label = document.getElementById(t[k].p[i].id).parentNode;
+							t[k].p[i].onkeyup = label.onclick = function(e) {
 								e = e ? e : event;
 								if ( 16  == e.keyCode )
 									return;
-								var match = /([\w-]*)-table-(\d*)/.exec(this.id);
+								var match = /([\w-]*)-table-(\d*)/.exec(this.querySelector('input').id);
 								var listname = match[1];
 								var that = match[2];
 								if ( null === t[listname].s )
 									t[listname].s = that;
 								else if ( e.shiftKey ) {
+                                    console.log(this);
 									var start = Math.min(that, t[listname].s) + 1;
 									var end = Math.max(that, t[listname].s);
+                                    this.querySelector('input').checked = true;
 									for( var j=start; j < end; j++)
 										t[listname].p[j].checked = t[listname].p[j].checked ? false : true;
 									t[listname].s = null;
