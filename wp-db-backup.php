@@ -519,7 +519,7 @@ class wpdbBackup {
 					if ( ul ) {
 						var lis = ul.getElementsByTagName('li');
 						if ( 2 < lis.length ) {
-							var text = document.querySelector('#instructions-container p');
+							var text = document.querySelector('.instructions-container p');
                             text.style.display = 'block';
 						}
 					}
@@ -1291,7 +1291,9 @@ class wpdbBackup {
 			<div class="panel-content tables">
 
 			<div class="tables-list core-tables alternate">
-				<h4><?php _e( 'Core WordPress tables to backup', 'wp-db-backup' ); ?></h4>
+				<div class="instructions-container">
+				  <h4><?php _e( 'Core WordPress tables to backup', 'wp-db-backup' ); ?></h4>
+		  	</div>
 				<ul>
 				<?php
 					$excs = (array) get_option( 'wp_db_backup_excs' );
@@ -1315,9 +1317,9 @@ class wpdbBackup {
 			<?php
 			if ( count( $other_tables ) > 0 ) {
 				?>
-                <div id="instructions-container">
+                <div class="instructions-container">
 				    <h4><?php _e( 'Additional tables to backup', 'wp-db-backup' ); ?></h4>
-                    <p hidden><?php _e( 'Click and hold down <code class="shift-key">SHIFT</code> to toggle multiple checkboxes', 'wp-db-backup' ); ?></p>
+                    <p hidden><?php _e( 'Hold <code class="shift-key">SHIFT</code> to toggle multiple checkboxes', 'wp-db-backup' ); ?></p>
                 </div>
 				<ul>
 					<?php

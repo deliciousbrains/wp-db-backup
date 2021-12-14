@@ -170,6 +170,16 @@ h4 {
   align-items: center;
 }
 
+.instructions-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.instructions-container p {
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
 /*panel-content*/
 .panel-content {
   padding: 2rem;
@@ -250,6 +260,15 @@ h4 {
 
   .panel-content.scheduled-backup .row {
     flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .instructions-container{
+    flex-direction: column;
+    height: 2.75rem;
+    row-gap: 8px;
+    justify-content: flex-start;
   }
 }
 
@@ -450,9 +469,9 @@ code.shift-key {
   border-radius: 2px;
   background-color: #F2F2F2;
   border: 1px solid #AEC1C5;
-  padding: 3px 6px;
+  padding: 3px 4px;
   line-height: 1;
-  margin: 0 0.25rem;
+  margin: 0 0.1rem;
   font-size: 11px;
   display: inline-block;
   white-space: nowrap;
