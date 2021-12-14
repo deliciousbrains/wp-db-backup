@@ -278,8 +278,8 @@ class wpdbBackup {
 			</div>
 
 			<?php echo '<div id="errors"></div>
+            <iframe id="backuploader" src="about:blank" style="display:none;border:none;height:1em;width:1px;"></iframe>
 			</fieldset>
-			<iframe id="backuploader" src="about:blank" style="visibility:hidden;border:none;height:1em;width:1px;"></iframe>
 			<script type="text/javascript">
 			//<![CDATA[
 			window.onbeforeunload = function() {
