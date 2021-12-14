@@ -1462,7 +1462,12 @@ class wpdbBackup {
 
 			if ( count( $other_tables ) > 0 ) {
 				echo '<div class="tables-list alternate" id="include-tables-list">';
-				echo '<h4>' . __( 'Tables to include in the scheduled backup:', 'wp-db-backup' ) . '</h4><ul>';
+                echo '<div class="instructions-container">';
+				echo '<h4>' . __( 'Tables to include in the scheduled backup:', 'wp-db-backup' ) . '</h4>';
+                if ( count( $other_tables ) > 1 ) {
+                    echo '<p>' . __( 'Hold <code class="shift-key">SHIFT</code> to toggle multiple checkboxes', 'wp-db-backup' ) . '</p>';
+                }
+                echo '</div><ul>';
 				foreach ( $other_tables as $table ) {
 					echo '<li><label><input type="checkbox" ';
 					if ( in_array( $table, $cron_tables ) ) {
