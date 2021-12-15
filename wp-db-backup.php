@@ -1172,7 +1172,7 @@ class wpdbBackup {
 				update_option( 'wp_cron_backup_recipient', sanitize_text_field( $_POST['cron_backup_recipient'] ), false );
 			}
 
-			$feedback .= '<div class="wp-db-backup-updated"><p>' . __( 'Scheduled Backup Options Saved!', 'wp-db-backup' ) . '</p></div>';
+			$feedback .= '<div class="wp-db-backup-updated wp-db-backup-schedule-updated"><p>' . __( 'Scheduled Backup Options Saved!', 'wp-db-backup' ) . '</p></div>';
 		endif;
 
 		$other_tables = array();
@@ -1418,7 +1418,7 @@ class wpdbBackup {
 				<?php
 			endif;
 			?>
-			<form method="post" action="#schedule">
+			<form method="post" action="">
 			<?php
 			if ( function_exists( 'wp_nonce_field' ) ) {
 				wp_nonce_field( $this->referer_check_key );}

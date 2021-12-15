@@ -13,6 +13,8 @@
 		history.replaceState(null, null, ' ');
 		if ( type !== 'backup') {
 			window.location.hash = type;
+		} else {
+			$( '.wp-db-backup-schedule-updated').remove();
 		}
 	}
 
