@@ -1258,10 +1258,10 @@ class wpdbBackup {
 			<div class="subnav">
 				<ul>
 					<li>
-						<a class="active" href="#backup">Backup Now</a>
+						<a class="active" href="#backup" data-type="backup">Backup Now</a>
 					</li>
 					<li>
-						<a href="#schedule">Scheduled Backup</a>
+						<a href="#schedule" data-type="schedule">Scheduled Backup</a>
 					</li>
 				</ul>
 			</div>
@@ -1418,7 +1418,7 @@ class wpdbBackup {
 				<?php
 			endif;
 			?>
-			<form method="post" action="">
+			<form method="post" action="#schedule">
 			<?php
 			if ( function_exists( 'wp_nonce_field' ) ) {
 				wp_nonce_field( $this->referer_check_key );}
