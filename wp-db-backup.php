@@ -1143,7 +1143,7 @@ class wpdbBackup {
 		$this->wp_secure();
 
 		if ( count( $this->errors ) ) {
-			$feedback .= '<div class="wp-db-backup-updated error"><p><strong>' . __( 'The following errors were reported:', 'wp-db-backup' ) . '</strong></p>';
+			$feedback .= '<div class="wp-db-backup-updated error inline"><p><strong>' . __( 'The following errors were reported:', 'wp-db-backup' ) . '</strong></p>';
 			$feedback .= '<p>' . $this->error_display( 'main', false ) . '</p>';
 			$feedback .= '</p></div>';
 		}
@@ -1204,7 +1204,7 @@ class wpdbBackup {
 		// the file doesn't exist and can't create it
 		if ( ! file_exists( $this->backup_dir ) && ! @mkdir( $this->backup_dir ) ) {
 			?>
-			<div class="wp-db-backup-updated error">
+			<div class="wp-db-backup-updated error inline">
 				<p><?php _e( 'WARNING: Your backup directory does <strong>NOT</strong> exist, and we cannot create it.', 'wp-db-backup' ); ?></p>
 				<p><?php printf( __( 'Using your FTP client, try to create the backup directory yourself: %s', 'wp-db-backup' ), '<code>' . $this->backup_dir . '</code>' ); ?></p>
 			</div>
@@ -1213,7 +1213,7 @@ class wpdbBackup {
 			$whoops = true;
 		} elseif ( ! is_writable( $this->backup_dir ) && ! @chmod( $this->backup_dir, $dir_perms ) ) {
 			?>
-			<div class="wp-db-backup-updated error">
+			<div class="wp-db-backup-updated error inline">
 				<p><?php _e( 'WARNING: Your backup directory is <strong>NOT</strong> writable! We cannot create the backup files.', 'wp-db-backup' ); ?></p>
 				<p><?php printf( __( 'Using your FTP client, try to set the backup directory&rsquo;s write permission to %1$s or %2$s: %3$s', 'wp-db-backup' ), '<code>777</code>', '<code>a+w</code>', '<code>' . $this->backup_dir . '</code>' ); ?></p>
 			</div>
@@ -1228,7 +1228,7 @@ class wpdbBackup {
 				// the directory is not writable probably due to safe mode
 			} else {
 				?>
-				<div class="wp-db-backup-updated error">
+				<div class="wp-db-backup-updated error inline">
 					<p><?php _e( 'WARNING: Your backup directory is <strong>NOT</strong> writable! We cannot create the backup files.', 'wp-db-backup' ); ?></p>
 					<?php
 					if ( ini_get( 'safe_mode' ) ) {
@@ -1379,7 +1379,7 @@ class wpdbBackup {
 				<input type="submit" name="submit" onclick="document.getElementById('do_backup').value='fragments';" value="<?php _e( 'Backup now', 'wp-db-backup' ); ?>" />
 			</p>
 			<?php else : ?>
-				<div class="wp-db-backup-updated error"><p><?php _e( 'WARNING: Your backup directory is <strong>NOT</strong> writable!', 'wp-db-backup' ); ?></p></div>
+				<div class="wp-db-backup-updated error inline"><p><?php _e( 'WARNING: Your backup directory is <strong>NOT</strong> writable!', 'wp-db-backup' ); ?></p></div>
 			<?php endif; // ! whoops ?>
 
 		</div><!--panel-content-->
