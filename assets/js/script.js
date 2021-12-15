@@ -10,7 +10,10 @@
 		container.find( 'fieldset' ).hide();
 		container.find( '.' + visibleClass ).show();
 
-		window.location.hash = type;
+		history.replaceState(null, null, ' ');
+		if ( type !== 'backup') {
+			window.location.hash = type;
+		}
 	}
 
 	nav.on( 'click', 'a', function( e ) {
