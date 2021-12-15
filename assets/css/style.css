@@ -340,11 +340,14 @@ input[type="submit"]:focus {
   box-shadow: 0 0 0 5px rgba(44, 158, 183, .3);
 }
 
+p.submit {
+  border-top: 1px solid var(--divider);
+}
+
 .submit {
   margin: 0 !important;
   padding: 0;
   padding-top: 32px !important;
-  border-top: 1px solid var(--divider);
 }
 
 #change-wrap, #next-backup-time .submit {

@@ -622,7 +622,7 @@ class wpdbBackup {
 
 	function admin_load() {
 		add_action( 'admin_head', array( &$this, 'admin_header' ) );
-		wp_enqueue_style( 'wp-db-backup-styles', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array( 'common' ) );
+		wp_enqueue_style( 'wp-db-backup-styles', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array( 'common', 'forms' ) );
         wp_enqueue_script( 'wp-db-backup-script', plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array( 'jquery' ), $this->version, true );
 	}
 
