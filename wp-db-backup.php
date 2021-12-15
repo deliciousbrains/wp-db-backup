@@ -1252,7 +1252,7 @@ class wpdbBackup {
 		<div id="wpdb" class='wrap'>
 			<div class="header">
 				<img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/logo.svg'; ?>">
-				<h2 class="title"><?php _e( 'WP Backup For WordPress', 'wp-db-backup' ); ?></h2>
+				<h2 class="title"><?php _e( 'Database Backup for WordPress', 'wp-db-backup' ); ?></h2>
 			</div>
 
 			<div class="subnav">
