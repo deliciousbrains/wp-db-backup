@@ -40,7 +40,7 @@
   padding: 0 !important;
 }
 
-.wrap {
+.wrap, #wpdb.wrap {
   margin: 0;
 }
 
