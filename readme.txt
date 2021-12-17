@@ -26,7 +26,7 @@ Backups are the one thing you don’t think of until you need them. You might ha
 
 You need a reliable and automated solution which backs up your WordPress data and sends it to an off-site location. Database Backup for WordPress is that solution.
 
-= Why You Should Backup Your Website =
+= Why You Should Back Up Your Website =
 
 As much planning as you do, any CMS like WordPress that stores its data in a database is vulnerable. Hardware, software, and security hiccups are rare, but they do happen. Even the best enterprise systems in the world have multiple levels of backup in place.
 
@@ -77,7 +77,7 @@ This file is used by non-English users to translate the user interface text into
 
 = Why are only the core database files backed up by default? =
 
-Generally the most important site data is stored in the core WordPress tables. It's not uncommon for some plugins to have a bunch of visitor statistics stored in their custom tables. aren’t usually considered essential data that needs to be restored after a catastrophic failure. However, it’s possible that some important data is stored in certain of these additional tables, and you may want to back them up. We recommend reviewing the current tables in your database, and deciding which ones you would need in the case of a catastrophic failure.
+Generally the most important site data is stored in the core WordPress tables. It's not uncommon for some plugins to have a bunch of visitor statistics stored in their custom tables that aren’t usually considered essential data that needs to be restored after a catastrophic failure. However, it’s possible that some important data is stored in these additional tables, and you may want to back them up. We recommend reviewing the current tables in your database, and deciding which ones you would need in the case of a catastrophic failure.
 
 = Why aren’t my backups being generated correctly? =
 
