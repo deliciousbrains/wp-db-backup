@@ -101,6 +101,15 @@ When having the database backup emailed or sent to your browser for immediate do
 Changelog
 ---------
 
+2.5.1
+-----
+* Security: Make sure table exists before attempting backup
+
+2.5
+-----
+* New: Brand new user interface
+* Improvement: Compatibility with WordPress 5.8
+
 2.4
 -----
 * Compatibility with PHP 8 and WordPress 5.7
