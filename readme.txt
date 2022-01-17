@@ -3,7 +3,7 @@ Contributors: deliciousbrains
 Tags: mysql, database, backup, database backup
 Requires at least: 3.6.0
 Tested up to: 5.8
-Stable tag: 2.5
+Stable tag: 2.5.1
 Requires PHP: 5.3
 
 Database Backup for WordPress is your one-stop database backup solution for WordPress.
@@ -95,6 +95,9 @@ The plugin will attempt to create a directory `/wp-content/backup-*/` inside you
 1. Scheduled backup
 
 == Changelog ==
+
+= 2.5.1 - 2022-01-17 =
+* Security: Make sure table exists before attempting backup
 
 = 2.5 - 2021-12-17 =
 * New: Brand new user interface
