@@ -203,8 +203,22 @@ class wpdbBackup {
 
 		if ( isset( $_GET['fragment'] ) ) {
 			list($table, $segment, $filename) = explode( ':', sanitize_text_field( $_GET['fragment'] ) );
-			$this->validate_file( $filename );
-			$this->backup_fragment( $table, $segment, $filename );
+
+            if ( empty( $table ) || in_array( $table, $this->get_tables() ) ) {
+	            $this->validate_file( $filename );
+	            $this->backup_fragment( $table, $segment, $filename );
+            } else {
+	            $this->error(
+		            array(
+			            'loc'  => 'frame',
+			            'kind' => 'fatal',
+			            'msg'  => __(
+				            'There was an error determining the table to backup. Please check the settings used for the backup and try again.',
+				            'wp-db-backup'
+			            ),
+		            )
+	            );
+            }
 		}
 
 		die();
@@ -1177,13 +1191,7 @@ class wpdbBackup {
 		$also_backup  = array();
 
 		// Get complete db table list
-		$all_tables = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
-		$all_tables = array_map(
-			function( $a ) {
-				return $a[0];
-			},
-			$all_tables
-		);
+		$all_tables = $this->get_tables();
 
 		// Get list of WP tables that actually exist in this DB (for 1.6 compat!)
 		$wp_backup_default_tables = array_intersect( $all_tables, $this->core_table_names );
@@ -1558,13 +1566,7 @@ class wpdbBackup {
 	function cron_backup() {
 		global $table_prefix, $wpdb;
 
-		$all_tables   = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
-		$all_tables   = array_map(
-			function( $a ) {
-				return $a[0];
-			},
-			$all_tables
-		);
+		$all_tables   = $this->get_tables();
 		$core_tables  = array_intersect( $all_tables, $this->core_table_names );
 		$other_tables = get_option( 'wp_cron_backup_tables' );
 		$recipient    = get_option( 'wp_cron_backup_recipient' );
@@ -1793,6 +1795,24 @@ class wpdbBackup {
 	function get_submitted_tables_to_backup_in_cron() {
 		return $this->get_post_data_array( 'wp_cron_backup_tables' );
 	}
+
+    /**
+     * Get an array of all tables on the current WP install.
+     *
+     * @return array
+     */
+    function get_tables() {
+        global $wpdb;
+
+	    $all_tables = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
+
+	    return array_map(
+		    function( $a ) {
+			    return $a[0];
+		    },
+		    $all_tables
+	    );
+    }
 
 }
 
