@@ -204,21 +204,21 @@ class wpdbBackup {
 		if ( isset( $_GET['fragment'] ) ) {
 			list($table, $segment, $filename) = explode( ':', sanitize_text_field( $_GET['fragment'] ) );
 
-            if ( empty( $table ) || in_array( $table, $this->get_tables() ) ) {
-	            $this->validate_file( $filename );
-	            $this->backup_fragment( $table, $segment, $filename );
-            } else {
-	            $this->error(
-		            array(
-			            'loc'  => 'frame',
-			            'kind' => 'fatal',
-			            'msg'  => __(
-				            'There was an error determining the table to backup. Please check the settings used for the backup and try again.',
-				            'wp-db-backup'
-			            ),
-		            )
-	            );
-            }
+			if ( empty( $table ) || in_array( $table, $this->get_tables() ) ) {
+				$this->validate_file( $filename );
+				$this->backup_fragment( $table, $segment, $filename );
+			} else {
+				$this->error(
+					array(
+						'loc'  => 'frame',
+						'kind' => 'fatal',
+						'msg'  => __(
+							'There was an error determining the table to backup. Please check the settings used for the backup and try again.',
+							'wp-db-backup'
+						),
+					)
+				);
+			}
 		}
 
 		die();
@@ -1796,23 +1796,23 @@ class wpdbBackup {
 		return $this->get_post_data_array( 'wp_cron_backup_tables' );
 	}
 
-    /**
-     * Get an array of all tables on the current WP install.
-     *
-     * @return array
-     */
-    function get_tables() {
-        global $wpdb;
+	/**
+	 * Get an array of all tables on the current WP install.
+	 *
+	 * @return array
+	 */
+	function get_tables() {
+		global $wpdb;
 
-	    $all_tables = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
+		$all_tables = $wpdb->get_results( 'SHOW TABLES', ARRAY_N );
 
-	    return array_map(
-		    function( $a ) {
-			    return $a[0];
-		    },
-		    $all_tables
-	    );
-    }
+		return array_map(
+			function( $a ) {
+				return $a[0];
+			},
+			$all_tables
+		);
+	}
 
 }
 
