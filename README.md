@@ -101,6 +101,10 @@ When having the database backup emailed or sent to your browser for immediate do
 Changelog
 ---------
 
+2.5.2
+-----
+* Security: "Scheduled Backup" form now has nonce check
+
 2.5.1
 -----
 * Security: Make sure table exists before attempting backup
