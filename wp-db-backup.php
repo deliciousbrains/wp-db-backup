@@ -1162,6 +1162,8 @@ class wpdbBackup {
 
 		// did we just save options for wp-cron?
 		if ( ( function_exists( 'wp_schedule_event' ) || function_exists( 'wp_cron_init' ) ) && isset( $_POST['wp_cron_backup_options'] ) ) :
+			check_admin_referer( $this->referer_check_key );
+
 			do_action( 'wp_db_b_update_cron_options' );
 
 			if ( function_exists( 'wp_schedule_event' ) ) {
