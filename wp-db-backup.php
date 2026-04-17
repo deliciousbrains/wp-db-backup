@@ -87,9 +87,11 @@ class wpdbBackup {
 		add_filter( 'cron_schedules', array( &$this, 'add_sched_options' ) );
 		add_filter( 'wp_db_b_schedule_choices', array( &$this, 'schedule_choices' ) );
 
-		$table_prefix          = ( isset( $table_prefix ) ) ? $table_prefix : $wpdb->prefix;
-		$datum                 = date( 'Ymd_B' );
-		$this->backup_filename = DB_NAME . "_$table_prefix$datum.sql";
+		$table_prefix = ( isset( $table_prefix ) ) ? $table_prefix : $wpdb->prefix;
+		$datum        = date( 'Ymd_B' );
+		$nonce        = wp_generate_password( 12, false );
+
+		$this->backup_filename = sanitize_text_field( DB_NAME . '_' . $table_prefix . $datum . '_' . $nonce . '.sql' );
 
 		$possible_names = array(
 			'categories',
