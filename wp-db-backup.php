@@ -692,6 +692,10 @@ class wpdbBackup {
 	 * Taken from phpMyAdmin.
 	 */
 	function sql_addslashes( $a_string = '', $is_like = false ) {
+		if ( empty( $a_string ) ) {
+			return $a_string;
+		}
+
 		if ( $is_like ) {
 			$a_string = str_replace( '\\', '\\\\\\\\', $a_string );
 		} else {
@@ -934,6 +938,8 @@ class wpdbBackup {
 								// yet try to avoid quotation marks around integers
 								$value    = ( null === $value || '' === $value ) ? $defs[ strtolower( $key ) ] : $value;
 								$values[] = ( '' === $value ) ? "''" : $value;
+							} elseif ( empty( $value ) ) {
+								$values[] = "'" . $value . "'";
 							} else {
 								$values[] = "'" . str_replace( $search, $replace, $this->sql_addslashes( $value ) ) . "'";
 							}
