@@ -2,19 +2,28 @@
 Contributors: deliciousbrains
 Tags: mysql, database, backup, database backup
 Requires at least: 3.6.0
-Tested up to: 5.9.3
-Stable tag: 2.5.2
+Tested up to: 6.9.4
+Stable tag: 2.5.3
 Requires PHP: 5.3
+License: GPLv2
 
 Database Backup for WordPress is your one-stop database backup solution for WordPress.
 
 == Description ==
 
+**⚠️ WARNING**
+
+**Database Backups for WordPress is no longer actively maintained.**
+
+This software is still free to use under the license provided, but users should be aware that it is not currently maintained. No additional releases, including security releases, will be made available.
+
+---
+
 Backup your database instantly, send the backup via email, or schedule backups to run automatically.
 
 Database Backup for WordPress allows you to quickly back up your core WordPress database tables, and either download the backup as a gzipped file, or send it via email to an address you choose.
 
-By default, the plugin will always back up all the core WordPress database tables. However, you may also selectively back up any custom tables that might be created by other plugins
+By default, the plugin will always back up all the core WordPress database tables. However, you may also selectively back up any custom tables that might be created by other plugins.
 
 Additional options include the ability to exclude spam comments from the comments table, or post revisions from the posts table, saving you space and bandwidth.
 
@@ -95,6 +104,15 @@ The plugin will attempt to create a directory `/wp-content/backup-*/` inside you
 1. Scheduled backup
 
 == Changelog ==
+
+= 2.5.3 - 2026-04-20 =
+* Security: Missing Authorization to Unauthenticated Database Export (CVE-2026-4029), thanks to security researcher Drew Webber (mcdruid)
+* Security: Missing Authorization to Unauthenticated Arbitrary File Read and Deletion (CVE-2026-4030), thanks to security researcher Drew Webber (mcdruid)
+* Security: Missing Authorization to Unauthenticated Database Backup Interception (CVE-2026-4031), thanks to security researcher Drew Webber (mcdruid)
+* Bug fix: Deprecation warnings for dynamic properties with recent versions of PHP are no longer logged to debug.log
+* Bug fix: Deprecation warnings for passing null to parameter #3 ($subject) of str_replace are no longer logged to debug.log
+* Bug fix: Resolve issue writing files on Windows, thanks @ProjectPatatoe
+* Bug fix: The blog name used in email titles is now properly decoded
 
 = 2.5.2 - 2022-05-09 =
 * Security: "Scheduled Backup" form now has nonce check

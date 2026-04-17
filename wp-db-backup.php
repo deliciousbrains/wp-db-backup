@@ -5,7 +5,7 @@ Plugin URI: https://github.com/deliciousbrains/wp-db-backup
 Description: On-demand backup of your WordPress database. Navigate to <a href="edit.php?page=wp-db-backup">Tools &rarr; Backup</a> to get started.
 Author: Delicious Brains
 Author URI: https://deliciousbrains.com
-Version: 2.5.2
+Version: 2.5.3
 Domain Path: /languages
 
 This program is free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ class wpdbBackup {
 	private $fp;
 	private $page_url;
 	private $referer_check_key;
-	private $version = '2.5.2';
+	private $version = '2.5.3';
 
 	function module_check() {
 		$mod_evasive = false;
