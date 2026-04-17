@@ -118,13 +118,6 @@ class wpdbBackup {
 
 		$tmp_dir = get_temp_dir();
 
-		if ( isset( $_GET['wp_db_temp_dir'] ) ) {
-			$requested_dir = sanitize_text_field( $_GET['wp_db_temp_dir'] );
-			if ( is_writeable( $requested_dir ) ) {
-				$tmp_dir = $requested_dir;
-			}
-		}
-
 		$this->backup_dir = trailingslashit( apply_filters( 'wp_db_b_backup_dir', $tmp_dir ) );
 		$this->basename   = 'wp-db-backup';
 
@@ -156,7 +149,9 @@ class wpdbBackup {
 			}
 			add_action( 'init', array( &$this, 'init' ) );
 		} elseif ( isset( $_GET['backup'] ) ) {
-			$this->can_user_backup();
+			if ( ! $this->can_user_backup() ) {
+				return;
+			}
 			add_action( 'init', array( &$this, 'init' ) );
 		} else {
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
@@ -316,7 +311,7 @@ class wpdbBackup {
 
 			function backup(table, segment) {
 				var fram = document.getElementById("backuploader");
-				fram.src = "' . $this->page_url . '&fragment=" + table + ":" + segment + ":' . $this->backup_filename . ':&wp_db_temp_dir=' . $this->backup_dir . '";
+				fram.src = "' . $this->page_url . '&fragment=" + table + ":" + segment + ":' . $this->backup_filename . ':";
 			}
 
 			var curStep = 0;
