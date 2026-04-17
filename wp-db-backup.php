@@ -422,7 +422,7 @@ class wpdbBackup {
 			}
 		}
 
-		if ( is_writable( $this->backup_dir ) ) {
+		if ( wp_is_writable( $this->backup_dir ) ) {
 			$this->fp = $this->open( $this->backup_dir . $filename, 'a' );
 			if ( ! $this->fp ) {
 				$this->error( __( 'Could not open the backup file for writing!', 'wp-db-backup' ) );
@@ -964,7 +964,7 @@ class wpdbBackup {
 	function db_backup( $core_tables, $other_tables ) {
 		global $table_prefix, $wpdb;
 
-		if ( is_writable( $this->backup_dir ) ) {
+		if ( wp_is_writable( $this->backup_dir ) ) {
 			$this->fp = $this->open( $this->backup_dir . $this->backup_filename );
 			if ( ! $this->fp ) {
 				$this->error( __( 'Could not open the backup file for writing!', 'wp-db-backup' ) );
@@ -1226,7 +1226,7 @@ class wpdbBackup {
 			<?php
 			// not writable due to write permissions
 			$whoops = true;
-		} elseif ( ! is_writable( $this->backup_dir ) && ! @chmod( $this->backup_dir, $dir_perms ) ) {
+		} elseif ( ! wp_is_writable( $this->backup_dir ) && ! @chmod( $this->backup_dir, $dir_perms ) ) {
 			?>
 			<div class="wp-db-backup-updated error inline">
 				<p><?php _e( 'WARNING: Your backup directory is <strong>NOT</strong> writable! We cannot create the backup files.', 'wp-db-backup' ); ?></p>
