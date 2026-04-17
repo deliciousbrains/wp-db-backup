@@ -1103,8 +1103,18 @@ class wpdbBackup {
 				$recipient = get_option( 'admin_email' );
 			}
 
-			$message = sprintf( __( "Attached to this email is\n   %1\$1s\n   Size:%2\$2s kilobytes\n", 'wp-db-backup' ), $filename, round( filesize( $file_to_deliver ) / 1024 ) );
-			$success = $this->send_mail( $recipient, get_bloginfo( 'name' ) . ' ' . __( 'Database Backup', 'wp-db-backup' ), $message, $file_to_deliver );
+			$message   = sprintf(
+				__( "Attached to this email is\n   %1\$1s\n   Size:%2\$2s kilobytes\n", 'wp-db-backup' ),
+				$filename,
+				round( filesize( $file_to_deliver ) / 1024 )
+			);
+			$blog_name = sanitize_text_field( html_entity_decode( get_bloginfo( 'name' ) ) );
+			$success   = $this->send_mail(
+				$recipient,
+				$blog_name . ' ' . __( 'Database Backup', 'wp-db-backup' ),
+				$message,
+				$file_to_deliver
+			);
 
 			if ( false === $success ) {
 				$msg = __( 'The following errors were reported:', 'wp-db-backup' ) . "\n ";
