@@ -43,15 +43,17 @@ if ( ! defined( 'DBBWP_MOD_EVASIVE_DELAY' ) ) {
 
 class wpdbBackup {
 
-	var $backup_complete = false;
-	var $backup_file     = '';
-	var $backup_filename;
-	var $core_table_names = array();
-	var $errors           = array();
-	var $basename;
-	var $page_url;
-	var $referer_check_key;
-	var $version = '2.5.2';
+	private $backup_complete = false;
+	private $backup_file     = '';
+	private $backup_filename;
+	private $core_table_names = array();
+	private $errors           = array();
+	private $backup_dir;
+	private $basename;
+	private $fp;
+	private $page_url;
+	private $referer_check_key;
+	private $version = '2.5.2';
 
 	function module_check() {
 		$mod_evasive = false;
