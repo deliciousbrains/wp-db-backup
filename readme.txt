@@ -2,7 +2,7 @@
 Contributors: deliciousbrains
 Tags: mysql, database, backup, database backup
 Requires at least: 3.6.0
-Tested up to: 6.9.4
+Tested up to: 6.9
 Stable tag: 2.5.3
 Requires PHP: 5.3
 License: GPLv2
