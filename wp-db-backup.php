@@ -151,7 +151,9 @@ class wpdbBackup {
 					break;
 			}
 		} elseif ( isset( $_GET['fragment'] ) ) {
-			$this->can_user_backup( 'frame' );
+			if ( ! $this->can_user_backup( 'frame' ) ) {
+				return;
+			}
 			add_action( 'init', array( &$this, 'init' ) );
 		} elseif ( isset( $_GET['backup'] ) ) {
 			$this->can_user_backup();
@@ -1630,6 +1632,16 @@ class wpdbBackup {
 
 		// make sure WPMU users are site admins, not ordinary admins
 		if ( function_exists( 'is_site_admin' ) && ! is_site_admin() ) {
+			$this->error(
+				array(
+					'loc'  => $loc,
+					'kind' => 'fatal',
+					'msg'  => __(
+						'You are not allowed to perform backups.',
+						'wp-db-backup'
+					),
+				)
+			);
 			return false;
 		}
 
