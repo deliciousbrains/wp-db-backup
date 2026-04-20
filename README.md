@@ -1,163 +1,181 @@
-Database Backup for WordPress
-============
+# Database Backup for WordPress
 
-Contributors: deliciousbrains
-Tags: mysql, database, backup, cron
-Requires at least: 3.6.0
-Tested up to: 5.7
-Stable tag: 2.4
-Requires PHP: 5.3
+**Contributors:** deliciousbrains \
+**Tags:** mysql, database, backup, database backup \
+**Requires at least:** 3.6.0 \
+**Tested up to:** 6.9.4 \
+**Stable tag:** 2.5.3 \
+**Requires PHP:** 5.3 \
+**License:** GPLv2
 
-On-demand backup of your WordPress database.
+Database Backup for WordPress is your one-stop database backup solution for WordPress.
 
-Description
------------
+## Description
 
-WP-DB-Backup allows you easily to backup your core WordPress database tables.  You may also backup other tables in the same database.
+**⚠️ WARNING**
 
-Released under the terms of the GNU GPL, version 2.
+**Database Backups for WordPress is no longer actively maintained.**
 
-[Source Code on GitHub](https://github.com/deliciousbrains/wp-db-backup)
+This software is still free to use under the license provided, but users should be aware that it is not currently maintained. No additional releases, including security releases, will be made available.
 
-Installation
-------------
+---
 
-1. Extract the wp-db-backup/ folder file to /wp-content/plugins/
-1. Activate the plugin at your blog's Admin -> Plugins screen
-1. The plugin will attempt to create a directory /wp-content/backup-*/ inside your WordPress directory.
-1. You may need to make /wp-content writable (at least temporarily) for it to create this directory. 
-   For example:
-   `$ cd /wordpress/`
-   `$ chgrp www-data wp-content` (where "`www-data`" is the group your FTP client uses)
-   `$ chmod g+w wp-content`
+Backup your database instantly, send the backup via email, or schedule backups to run automatically.
 
-Frequently Asked Questions 
---------------------------
+Database Backup for WordPress allows you to quickly back up your core WordPress database tables, and either download the backup as a gzipped file, or send it via email to an address you choose.
 
-How do I restore my database from a backup? 
--------------------------------------------
+By default, the plugin will always back up all the core WordPress database tables. However, you may also selectively back up any custom tables that might be created by other plugins.
 
-Briefly, use phpMyAdmin, which is included with most hosting control panels. More details and links to further explanations are [here](http://codex.wordpress.org/Restoring_Your_Database_From_Backup).
+Additional options include the ability to exclude spam comments from the comments table, or post revisions from the posts table, saving you space and bandwidth.
 
-My backup stops or hangs without completing. 
---------------------------------------------
+You can also enable scheduled backups to run automatically at set intervals, and configure the email address to send the scheduled backups to.
 
-If you edit the text of wp-db-backup.php in a text editor like Notepad, you’ll see around line 50 the following:
+### Backup Before You Mess Up
 
-`/**
-* Set DBBWP_MOD_EVASIVE_OVERRIDE to true
-* and increase DBBWP_MOD_EVASIVE_DELAY
-* if the backup stops prematurely.
-*/
-// define('DBBWP_MOD_EVASIVE_OVERRIDE', false);
-define('DBBWP_MOD_EVASIVE_DELAY', '500');`
+Backups are the one thing you don’t think of until you need them. You might have the best web host, the most secure server, and a tried and tested process for running plugin, theme, or core updates. But all it takes is one little thing to go wrong, and you lose your entire website.
 
-Do what it says: un-comment DBBWP_MOD_EVASIVE_OVERRIDE and set it to true like so:
+You need a reliable and automated solution which backs up your WordPress data and sends it to an off-site location. Database Backup for WordPress is that solution.
 
-`define('DBBWP_MOD_EVASIVE_OVERRIDE', true);`
+### Why You Should Back Up Your Website
 
-That will slow down the plugin, and you can slow it even further by increasing the DBBWP_MOD_EVASIVE_DELAY number from 500.
+As much planning as you do, any CMS like WordPress that stores its data in a database is vulnerable. Hardware, software, and security hiccups are rare, but they do happen. Even the best enterprise systems in the world have multiple levels of backup in place.
 
-Better yet, put the lines that define the `DBBWP_MOD_EVASIVE_OVERRIDE` and `DBBWP_MOD_EVASIVE_DELAY` constants in your wp-config.php file, so your settings don't get erased when you upgrade the plugin.
+Think about the data you store in your WordPress site. Your blog posts since the day you launched the site. Your customers, products, and order history if you run an ecommerce site. Backups are like implementing an insurance policy for your data. With backups, you have a reliable way of restoring that data if anything goes wrong.
 
-What is wp-db-backup.pot for? 
------------------------------
+Simple, automated backups save you time and give you peace of mind that you are prepared for the worst case scenario, even if you never need it. Better to have it and not need it, than to not have it and suddenly need it.
 
-This files is used by non-English users to translate the display into their native language.  Translators are encouraged to submit translated files, which will be made available to others here:
-http://plugins.trac.wordpress.org/browser/wp-db-backup/i18n/
+### Scheduled Backups
 
-Why are only the core database files backed up by default? 
-----------------------------------------------------------
+Depending on your needs, you might want to back up your database every few minutes, hourly, daily, weekly, or monthly. You’ll want to automate this process, or it becomes another possible point of failure.
 
-Because it's a fairly safe bet that the core WordPress files will be successfully backed up.  Plugins vary wildly in the amount of data that they store.  For instance, it's not uncommon for some statistics plugins to have tens of megabytes worth of visitor statistics.  These are not exactly essential items to restore after a catastrophic failure. Most poeple can reasonably live without this data in their backups.
+Scheduled backups give you peace of mind that your data is being backed up as much or as little as you need, without your intervention. By emailing the backups to an email address you choose, you can verify that the backup has run, and store it in a safe location.
 
-Usage 
------
+## Installation
 
-1. Click the Tools or Manage menu in your WordPress admin area.
-1. Click the Backup sub-menu.
+From your WordPress dashboard
 
-1. The plugin will look for other tables in the same database.  You may elect to include other tables in the backup.
-  ** NOTE **
-  Including other tables in your backup may substantially increase the size of the backup file!
-  This may prevent you from emailing the backup file because it's too big.
+1. **Visit** Plugins > Add New
+1. **Search** for "Database Backup for WordPress"
+1. **Install and Activate** Database Backup for WordPress from your Plugins page
+1. **Click** on **Backup** in the "Tools" menu item, to select your backup settings, or schedule a backup to run automatically
 
-1. Select how you'd like the backup to be delivered:
- * Download to your computer : this will send the backup file to your browser to be downloaded
- * Email : this will email the backup file to the address you specify
+## Frequently Asked Questions
 
-1. Click "Backup!" and your database backup will be delivered to you.
+### How do I restore my database from a backup?
 
-The filename of the backup file will be of the form
-   DB_prefix_date.sql
-DB = the name of your WordPress database, as defined in wp-config.php
-prefix = the table prefix for this WordPress blog, as defined in wp-config.php
-date = CCYYmmdd_B format:  20050711_039
-       the "B" is the internet "Swatch" time.  
-       See the PHP date() function for details.
+The backup file is a gzipped MySQL database export, which can be used to restore with MySQL applications like phpMyAdmin, included with most hosting control panels. If you are comfortable with the command line, you can also restore the database using the `mysql` command. More info on how to restore databases is available [here](https://wordpress.org/support/article/restoring-your-database-from-backup/).
 
-When having the database backup emailed or sent to your browser for immediate download, the backup file will be _deleted_ from the server when the transfer is finished.
+### Why does my backup stop or hang without completing?
 
-Changelog
----------
+If the backup stops prematurely, you can enable a plugin setting that will implement a small delay after each table is backed up. To do this, add the following line to your `wp-config.php` file, just above the `/* That's all, stop editing! Happy publishing. */` line:
 
-2.5.2
------
+`
+define( 'DBBWP_MOD_EVASIVE_OVERRIDE', true );
+`
+
+If you are still experiencing problems, you can also increase the delay, by defining the `DBBWP_MOD_EVASIVE_DELAY` constant in your `wp-config.php` file and giving it a value higher than 500 (which is the default).
+
+`
+define( 'DBBWP_MOD_EVASIVE_DELAY', '600' );
+`
+
+We recommend incrementing the value by 100 each time, until the process completes successfully.
+
+### What is `wp-db-backup.pot` for?
+
+This file is used by non-English users to translate the user interface text into their native language. Translators are encouraged to submit translated files, which will be made available to others [here](http://plugins.trac.wordpress.org/browser/wp-db-backup/i18n/).
+
+### Why are only the core database files backed up by default?
+
+Generally the most important site data is stored in the core WordPress tables. It's not uncommon for some plugins to have a bunch of visitor statistics stored in their custom tables that aren’t usually considered essential data that needs to be restored after a catastrophic failure. However, it’s possible that some important data is stored in these additional tables, and you may want to back them up. We recommend reviewing the current tables in your database, and deciding which ones you would need in the case of a catastrophic failure.
+
+### Why aren’t my backups being generated correctly?
+
+The plugin will attempt to create a directory `/wp-content/backup-*/` inside your WordPress directory. You may need to make `/wp-content writable` (at least temporarily) for it to create this directory. For example:
+
+1. `$ cd /wordpress/`
+1. `$ chgrp www-data wp-content` (where "`www-data`" is the group your FTP client uses)
+1. `$ chmod g+w wp-content`
+
+
+## Screenshots
+
+### 1. Backup tables
+
+[missing image]
+
+### 2. Backup options
+
+[missing image]
+
+### 3. Scheduled backup
+
+[missing image]
+
+
+## Changelog
+
+### 2.5.3 - 2026-04-20
+
+* Security: Missing Authorization to Unauthenticated Database Export (CVE-2026-4029), thanks to security researcher Drew Webber (mcdruid)
+* Security: Missing Authorization to Unauthenticated Arbitrary File Read and Deletion (CVE-2026-4030), thanks to security researcher Drew Webber (mcdruid)
+* Security: Missing Authorization to Unauthenticated Database Backup Interception (CVE-2026-4031), thanks to security researcher Drew Webber (mcdruid)
+* Bug fix: Deprecation warnings for dynamic properties with recent versions of PHP are no longer logged to debug.log
+* Bug fix: Deprecation warnings for passing null to parameter #3 ($subject) of str_replace are no longer logged to debug.log
+* Bug fix: Resolve issue writing files on Windows, thanks @ProjectPatatoe
+* Bug fix: The blog name used in email titles is now properly decoded
+
+### 2.5.2 - 2022-05-09
+
 * Security: "Scheduled Backup" form now has nonce check
 
-2.5.1
------
+### 2.5.1 - 2022-01-17
+
 * Security: Make sure table exists before attempting backup
 
-2.5
------
+### 2.5 - 2021-12-17
+
 * New: Brand new user interface
 * Improvement: Compatibility with WordPress 5.8
 
-2.4
------
+### 2.4
+
 * Compatibility with PHP 8 and WordPress 5.7
 * Fix email backup functionality
 * Fix for bug where backup file would be gzipped twice
 * Fixes for several PHP notices
 * Add `DBBWP_` prefix to global constants
 
-2.3
------
+### 2.3
+
 * Remove backup directory use
 
-2.2.4
------
+### 2.2.4
+
 * Remove deprecated functionality
 * Do not attempt to delete non-existent files
 
-2.2.3
------
-* Nonce check fix for localized WP users from Sergey Biryukov
-* Fix for gzipped files' incorrect size.
-* Some styling improvements.
-* Fix for JS multiple checkbox selection.
+### 2.2.3
 
-2.3.3
------
+* Nonce check fix for localized WP users from Sergey Biryukov
+* Fix for gzipped files' incorrect size
+* Some styling improvements
+* Fix for JS multiple checkbox selection
+
+## Upgrade Notice
+
+### 2.2.3
+
+* Fixes problems users had when using localized WordPress installations
+* Fixes a bug that caused the size of gzipped backup files to be reported incorrectly
+
+### 2.3.3
+
 * Sanitize user-supplied data
 
-Upgrade Notice
---------------
+## Translators
 
-2.2.3
------
-* Fixes problems users had when using localized WordPress installations.
-* Fixes a bug that caused the size of gzipped backup files to be reported incorrectly.
-
-Advanced
---------
-If you are using WordPress version 2.1 or newer, you can schedule automated backups to be sent to the email address 
-of your choice.
-
-Translators
------------
-Thanks to following people for providing translation files for WP-DB-Backup:
+Thanks to the following people for providing translation files for Database Backup for WordPress:
 
 * Abel Cheung
 * Alejandro Urrutia
@@ -192,6 +210,6 @@ Thanks to following people for providing translation files for WP-DB-Backup:
 * Tzafrir Rehan
 * 吴曦
 
-Past Contributors
------------------
+## Past Contributors
+
 filosofo, skippy, Firas, LaughingLizard, MtDewVirus, Podz, Ringmaster

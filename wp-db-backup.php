@@ -5,7 +5,7 @@ Plugin URI: https://github.com/deliciousbrains/wp-db-backup
 Description: On-demand backup of your WordPress database. Navigate to <a href="edit.php?page=wp-db-backup">Tools &rarr; Backup</a> to get started.
 Author: Delicious Brains
 Author URI: https://deliciousbrains.com
-Version: 2.5.2
+Version: 2.5.3
 Domain Path: /languages
 
 This program is free software; you can redistribute it and/or modify
@@ -43,15 +43,17 @@ if ( ! defined( 'DBBWP_MOD_EVASIVE_DELAY' ) ) {
 
 class wpdbBackup {
 
-	var $backup_complete = false;
-	var $backup_file     = '';
-	var $backup_filename;
-	var $core_table_names = array();
-	var $errors           = array();
-	var $basename;
-	var $page_url;
-	var $referer_check_key;
-	var $version = '2.5.2';
+	private $backup_complete = false;
+	private $backup_file     = '';
+	private $backup_filename;
+	private $core_table_names = array();
+	private $errors           = array();
+	private $backup_dir;
+	private $basename;
+	private $fp;
+	private $page_url;
+	private $referer_check_key;
+	private $version = '2.5.3';
 
 	function module_check() {
 		$mod_evasive = false;
@@ -87,9 +89,11 @@ class wpdbBackup {
 		add_filter( 'cron_schedules', array( &$this, 'add_sched_options' ) );
 		add_filter( 'wp_db_b_schedule_choices', array( &$this, 'schedule_choices' ) );
 
-		$table_prefix          = ( isset( $table_prefix ) ) ? $table_prefix : $wpdb->prefix;
-		$datum                 = date( 'Ymd_B' );
-		$this->backup_filename = DB_NAME . "_$table_prefix$datum.sql";
+		$table_prefix = ( isset( $table_prefix ) ) ? $table_prefix : $wpdb->prefix;
+		$datum        = date( 'Ymd_B' );
+		$nonce        = wp_generate_password( 12, false );
+
+		$this->backup_filename = sanitize_text_field( DB_NAME . '_' . $table_prefix . $datum . '_' . $nonce . '.sql' );
 
 		$possible_names = array(
 			'categories',
@@ -118,13 +122,6 @@ class wpdbBackup {
 
 		$tmp_dir = get_temp_dir();
 
-		if ( isset( $_GET['wp_db_temp_dir'] ) ) {
-			$requested_dir = sanitize_text_field( $_GET['wp_db_temp_dir'] );
-			if ( wp_is_writable ( $requested_dir ) ) {
-				$tmp_dir = $requested_dir;
-			}
-		}
-
 		$this->backup_dir = trailingslashit( apply_filters( 'wp_db_b_backup_dir', $tmp_dir ) );
 		$this->basename   = 'wp-db-backup';
 
@@ -151,10 +148,14 @@ class wpdbBackup {
 					break;
 			}
 		} elseif ( isset( $_GET['fragment'] ) ) {
-			$this->can_user_backup( 'frame' );
+			if ( ! $this->can_user_backup( 'frame' ) ) {
+				return;
+			}
 			add_action( 'init', array( &$this, 'init' ) );
 		} elseif ( isset( $_GET['backup'] ) ) {
-			$this->can_user_backup();
+			if ( ! $this->can_user_backup() ) {
+				return;
+			}
 			add_action( 'init', array( &$this, 'init' ) );
 		} else {
 			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
@@ -314,7 +315,7 @@ class wpdbBackup {
 
 			function backup(table, segment) {
 				var fram = document.getElementById("backuploader");
-				fram.src = "' . $this->page_url . '&fragment=" + table + ":" + segment + ":' . $this->backup_filename . ':&wp_db_temp_dir=' . $this->backup_dir . '";
+				fram.src = "' . $this->page_url . '&fragment=" + table + ":" + segment + ":' . $this->backup_filename . ':";
 			}
 
 			var curStep = 0;
@@ -691,6 +692,10 @@ class wpdbBackup {
 	 * Taken from phpMyAdmin.
 	 */
 	function sql_addslashes( $a_string = '', $is_like = false ) {
+		if ( empty( $a_string ) ) {
+			return $a_string;
+		}
+
 		if ( $is_like ) {
 			$a_string = str_replace( '\\', '\\\\\\\\', $a_string );
 		} else {
@@ -933,6 +938,8 @@ class wpdbBackup {
 								// yet try to avoid quotation marks around integers
 								$value    = ( null === $value || '' === $value ) ? $defs[ strtolower( $key ) ] : $value;
 								$values[] = ( '' === $value ) ? "''" : $value;
+							} elseif ( empty( $value ) ) {
+								$values[] = "'" . $value . "'";
 							} else {
 								$values[] = "'" . str_replace( $search, $replace, $this->sql_addslashes( $value ) ) . "'";
 							}
@@ -1096,8 +1103,18 @@ class wpdbBackup {
 				$recipient = get_option( 'admin_email' );
 			}
 
-			$message = sprintf( __( "Attached to this email is\n   %1\$1s\n   Size:%2\$2s kilobytes\n", 'wp-db-backup' ), $filename, round( filesize( $file_to_deliver ) / 1024 ) );
-			$success = $this->send_mail( $recipient, get_bloginfo( 'name' ) . ' ' . __( 'Database Backup', 'wp-db-backup' ), $message, $file_to_deliver );
+			$message   = sprintf(
+				__( "Attached to this email is\n   %1\$1s\n   Size:%2\$2s kilobytes\n", 'wp-db-backup' ),
+				$filename,
+				round( filesize( $file_to_deliver ) / 1024 )
+			);
+			$blog_name = sanitize_text_field( html_entity_decode( get_bloginfo( 'name' ) ) );
+			$success   = $this->send_mail(
+				$recipient,
+				$blog_name . ' ' . __( 'Database Backup', 'wp-db-backup' ),
+				$message,
+				$file_to_deliver
+			);
 
 			if ( false === $success ) {
 				$msg = __( 'The following errors were reported:', 'wp-db-backup' ) . "\n ";
@@ -1630,6 +1647,16 @@ class wpdbBackup {
 
 		// make sure WPMU users are site admins, not ordinary admins
 		if ( function_exists( 'is_site_admin' ) && ! is_site_admin() ) {
+			$this->error(
+				array(
+					'loc'  => $loc,
+					'kind' => 'fatal',
+					'msg'  => __(
+						'You are not allowed to perform backups.',
+						'wp-db-backup'
+					),
+				)
+			);
 			return false;
 		}
 
